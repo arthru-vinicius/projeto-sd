@@ -1,0 +1,37 @@
+version: '3'
+services:
+  api-envio:
+    build: ./api-envio
+    ports:
+      - "3000:3000"
+    depends_on:
+      - db
+
+  api-recebimento:
+    build: ./api-recebimento
+    ports:
+      - "3001:3000"
+    depends_on:
+      - db
+
+  db:
+    image: postgres:13
+    container_name: postgres_db
+    environment:
+      POSTGRES_USER: user
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: notifications_db
+    ports:
+      - "5432:5432"
+    volumes:
+      - ./banco-dados/init.sql:/docker-entrypoint-initdb.d/init.sql
+
+  servidor-notificacoes:
+    build: ./servidor-notificacoes
+    ports:
+      - "3002:3002"
+
+  front-end:
+    build: ./front-end
+    ports:
+      - "3003:3000"

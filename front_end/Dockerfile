@@ -1,9 +1,10 @@
 # Dockerfile
 FROM node:14
 WORKDIR /usr/src/app
-COPY package*.json ./
+COPY front-end/package*.json ./
 RUN npm install
-COPY . .
+RUN npm install -g serve
+COPY front-end/ .
 RUN npm run build
 EXPOSE 3000
-CMD ["npx", "serve", "-s", "build"]
+CMD ["serve", "-s", "build"]

@@ -1,4 +1,5 @@
-CREATE TABLE notificacoes (
+CREATE TABLE IF NOT EXISTS notifications (
   id SERIAL PRIMARY KEY,
-  mensagem TEXT NOT NULL
+  mensagem TEXT NOT NULL,
+  criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );

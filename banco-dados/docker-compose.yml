@@ -1,4 +1,6 @@
-version: '3'
+volumes:
+  pgdata:
+    driver: local
 services:
   db:
     image: postgres:13
@@ -11,3 +13,4 @@ services:
       - "5432:5432"
     volumes:
       - ./banco-dados/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - pgdata:/var/lib/postgresql/data

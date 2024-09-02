@@ -23,7 +23,6 @@ app.post('/cadastros', async (req, res) => {
   }
 
   try {
-    // Inserir novo cadastro diretamente
     const result = await pool.query(
       'INSERT INTO cadastros (nome, email, telefone, cpf) VALUES ($1, $2, $3, $4) RETURNING *',
       [nome, email, telefone, cpf]

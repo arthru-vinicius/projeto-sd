@@ -8,9 +8,8 @@ function App() {
   const [telefone, setTelefone] = useState('');
   const [cpf, setCpf] = useState('');
   const [error, setError] = useState('');
-  const [success, setSuccess] = useState('');  // Adiciona um estado para a mensagem de sucesso
+  const [success, setSuccess] = useState('');
 
-  // Função para verificar se o CPF já existe no banco de dados
   const checkCpfExists = async () => {
     try {
       const response = await axios.get(`http://api-recebimento:3001/cadastros?cpf=${cpf}`);
@@ -22,10 +21,9 @@ function App() {
     }
   };
 
-  // Função para enviar um novo cadastro
   const sendUser = async () => {
     setError('');
-    setSuccess('');  // Limpa a mensagem de sucesso
+    setSuccess('');
     try {
       const cpfExists = await checkCpfExists();
       if (cpfExists) {
@@ -44,7 +42,7 @@ function App() {
       setEmail('');
       setTelefone('');
       setCpf('');
-      setSuccess('Cadastro realizado com sucesso!');  // Define a mensagem de sucesso
+      setSuccess('Cadastro realizado com sucesso!');
     } catch (error) {
       console.error('Erro ao enviar cadastro:', error);
       setError('Erro ao enviar cadastro');
@@ -82,7 +80,7 @@ function App() {
         <button onClick={sendUser}>Enviar</button>
       </div>
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      {success && <p style={{ color: 'green' }}>{success}</p>}  {/* Exibe a mensagem de sucesso */}
+      {success && <p style={{ color: 'green' }}>{success}</p>}
     </div>
   );
 }

@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS cadastros (
+   id SERIAL PRIMARY KEY,
+   nome VARCHAR(100),
+   email VARCHAR(100),
+   telefone VARCHAR(20),
+   cpf VARCHAR(14) UNIQUE,
+   criado_em TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

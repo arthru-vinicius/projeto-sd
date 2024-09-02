@@ -8,9 +8,9 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: notifications_db
+      POSTGRES_DB: cadastros_db
     ports:
       - "5432:5432"
     volumes:
-      - ./banco-dados/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./banco-dados/init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
       - pgdata:/var/lib/postgresql/data

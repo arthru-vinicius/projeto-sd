@@ -19,23 +19,24 @@ services:
     environment:
       POSTGRES_USER: user
       POSTGRES_PASSWORD: password
-      POSTGRES_DB: notifications_db
+      POSTGRES_DB: cadastros_db
     ports:
       - "5432:5432"
     volumes:
-      - ./banco-dados/init.sql:/docker-entrypoint-initdb.d/init.sql
+      - ./banco-dados/init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
       - pgdata:/var/lib/postgresql/data
 
-  servidor-notificacoes:
-    build: ./servidor_notificacoes
+  servidor-cadastros:
+    build: ./servidor_cadastros
     ports:
       - "3002:3002"
+    depends_on:
+      - api-recebimento
 
   front-end:
     build: ./front_end
     ports:
       - "3003:3000"
-    command: ["serve", "-s", "build"]
 
 volumes:
   pgdata:

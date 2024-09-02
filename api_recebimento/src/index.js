@@ -11,18 +11,27 @@ app.use(cors());
 const pool = new Pool({
   user: 'user',
   host: 'db',
-  database: 'notifications_db',
+  database: 'cadastros_db',
   password: 'password',
   port: 5432,
 });
 
-app.get('/notifications', async (req, res) => {
+// Endpoint para listar todos os cadastros
+app.get('/cadastros', async (req, res) => {
   try {
-    const result = await pool.query('SELECT * FROM notifications ORDER BY criado_em DESC');
-    res.status(200).json(result.rows);
+    const cpf = req.query.cpf;
+    if (cpf) {
+      // Verificar se o CPF existe
+      const result = await pool.query('SELECT * FROM cadastros WHERE cpf = $1', [cpf]);
+      res.status(200).json(result.rows);
+    } else {
+      // Listar todos os cadastros
+      const result = await pool.query('SELECT * FROM cadastros ORDER BY criado_em DESC');
+      res.status(200).json(result.rows);
+    }
   } catch (error) {
     console.error(error);
-    res.status(500).json({ error: 'Erro ao recuperar notificações' });
+    res.status(500).json({ error: 'Erro ao recuperar cadastros' });
   }
 });
 

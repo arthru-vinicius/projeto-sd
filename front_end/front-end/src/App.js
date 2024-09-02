@@ -1,64 +1,88 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import './App.css';
 import axios from 'axios';
 
 function App() {
-  const [notifications, setNotifications] = useState([]);
-  const [newNotification, setNewNotification] = useState('');
-  const [loading, setLoading] = useState(false);
+  const [nome, setNome] = useState('');
+  const [email, setEmail] = useState('');
+  const [telefone, setTelefone] = useState('');
+  const [cpf, setCpf] = useState('');
   const [error, setError] = useState('');
+  const [success, setSuccess] = useState('');  // Adiciona um estado para a mensagem de sucesso
 
-  // Função para carregar as notificações da api-recebimento
-  const fetchNotifications = async () => {
-    setLoading(true);
-    setError('');
+  // Função para verificar se o CPF já existe no banco de dados
+  const checkCpfExists = async () => {
     try {
-      const response = await axios.get('http://localhost:3001/notifications');
-      setNotifications(response.data);
+      const response = await axios.get(`http://api-recebimento:3001/cadastros?cpf=${cpf}`);
+      return response.data.length > 0;
     } catch (error) {
-      console.error('Erro ao buscar notificações:', error);
-      setError('Erro ao buscar notificações');
-    } finally {
-      setLoading(false);
+      console.error('Erro ao verificar CPF:', error);
+      setError('Erro ao verificar CPF');
+      return false;
     }
   };
 
-  // Função para enviar uma nova notificação
-  const sendNotification = async () => {
+  // Função para enviar um novo cadastro
+  const sendUser = async () => {
     setError('');
+    setSuccess('');  // Limpa a mensagem de sucesso
     try {
-      await axios.post('http://localhost:3000/notifications', { mensagem: newNotification });
-      setNewNotification('');
-      fetchNotifications();
+      const cpfExists = await checkCpfExists();
+      if (cpfExists) {
+        setError('CPF já cadastrado');
+        return;
+      }
+
+      await axios.post('http://localhost:3000/cadastros', {
+        nome,
+        email,
+        telefone,
+        cpf,
+      });
+
+      setNome('');
+      setEmail('');
+      setTelefone('');
+      setCpf('');
+      setSuccess('Cadastro realizado com sucesso!');  // Define a mensagem de sucesso
     } catch (error) {
-      console.error('Erro ao enviar notificação:', error);
-      setError('Erro ao enviar notificação');
+      console.error('Erro ao enviar cadastro:', error);
+      setError('Erro ao enviar cadastro');
     }
   };
-
-  useEffect(() => {
-    fetchNotifications();
-  }, []);
 
   return (
     <div className="App">
-      <h1>Notificações</h1>
+      <h1>Cadastro de Usuários</h1>
       <div>
         <input
           type="text"
-          value={newNotification}
-          onChange={(e) => setNewNotification(e.target.value)}
-          placeholder="Digite uma nova notificação"
+          value={nome}
+          onChange={(e) => setNome(e.target.value)}
+          placeholder="Digite o nome"
         />
-        <button onClick={sendNotification}>Enviar</button>
+        <input
+          type="email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+          placeholder="Digite o email"
+        />
+        <input
+          type="text"
+          value={telefone}
+          onChange={(e) => setTelefone(e.target.value)}
+          placeholder="Digite o telefone"
+        />
+        <input
+          type="text"
+          value={cpf}
+          onChange={(e) => setCpf(e.target.value)}
+          placeholder="Digite o CPF"
+        />
+        <button onClick={sendUser}>Enviar</button>
       </div>
-      {loading && <p>Carregando notificações...</p>}
       {error && <p style={{ color: 'red' }}>{error}</p>}
-      <ul>
-        {notifications.map((notif) => (
-          <li key={notif.id}>{notif.message}</li>
-        ))}
-      </ul>
+      {success && <p style={{ color: 'green' }}>{success}</p>}  {/* Exibe a mensagem de sucesso */}
     </div>
   );
 }

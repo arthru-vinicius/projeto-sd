@@ -1,1 +1,5 @@
+Descrição do Sistema:
+
+O sistema distribuído de gerenciamento de cadastros é projetado para ser modular e escalável, utilizando a arquitetura de containers Docker para isolar e gerenciar diferentes componentes do sistema. A arquitetura é composta por cinco módulos principais, cada um executado em seu próprio container e responsável por uma função específica.
+
 Este projeto trata da necessidade de um sistema sólido e expansível para gerenciar as informações dos usuários de forma eficiente. Em ambientes corporativos e em aplicativos web, é essencial contar com uma solução capaz de lidar com entrada e consulta de dados de maneira eficiente. O sistema proposto resolve os desafios frequentemente encontrados em sistemas centralizados, como as dificuldades em escalabilidade e em manter a integridade e disponibilidade dos dados. Usando o Docker e uma arquitetura distribuída, o sistema oferece maior flexibilidade e praticidade na manutenção, permitindo atualizações e escalabilidade sem precisar de grandes mudanças na estrutura.

@@ -19,8 +19,7 @@ function App() {
       setError('Erro ao verificar CPF');
       return false;
     }
-  };
-
+  }; 
   const sendUser = async () => {
     setError('');
     setSuccess('');

@@ -26,10 +26,10 @@ services:
       - ./banco-dados/init_tables.sql:/docker-entrypoint-initdb.d/init_tables.sql
       - pgdata:/var/lib/postgresql/data
 
-  servidor-cadastros:
-    build: ./servidor_cadastros
+  listador-cadastros:
+    build: ./listador_cadastros
     ports:
-      - "3002:3002"
+      - "3002:80"
     depends_on:
       - api-recebimento
 
